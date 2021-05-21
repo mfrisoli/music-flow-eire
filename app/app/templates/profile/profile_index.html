@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+
+{% block page_content %}
+
+    <h1>Hello, This Profile Page</h1>
+    <h1></h1>
+    {% if current_user.is_authenthicated %}
+    Hello {{ current_user.username }}
+    {% else %}
+    Stranger
+    {% endif %}
+
+    
+{% endblock %}

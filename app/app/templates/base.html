@@ -1,0 +1,68 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment(local_js='static/moment.js') }}
+{% endblock %}
+
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %} - Music Flow</title>
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% endblock %}
+
+</head>
+{% block navbar %}
+<div class="navbar navbar-inverse" role='navigation'>
+    <div class='container'>
+        <div class="navbar-header">
+            <button type='button' class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toogle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Music Flow</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/player">Player</a></li>
+                <li><a href="/library">Library</a></li>
+                <li><a href="/profile">Profile</a></li>
+            </ul>
+            <ul class='nav navbar-nav navbar-right'>
+                {% if current_user.is_authenthicated %}
+                <li><a href='{{ url_for("auth.logout") }}'>Log Out</a></li>
+                {% else %}
+                <li><a href='{{ url_for("auth.login") }}'>Log In</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %} 
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type='button' class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+<div class="container">
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+
+
+</html>
