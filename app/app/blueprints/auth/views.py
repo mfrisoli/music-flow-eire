@@ -1,5 +1,5 @@
 from flask import render_template, redirect, request, url_for, flash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 from . import auth
 from app.models import User
 from .forms import LoginForm, RegisterForm
@@ -9,6 +9,9 @@ from app.extensions import db
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        flash('You are already logged in!')
+        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
