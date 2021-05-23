@@ -18,10 +18,10 @@ def index():
         user = User.query.filter_by(username=form.name.data).first()
         if user is None:
             flash('Welcome New user!!!')
-            user = User(username=form.name.data)
-            db.session.add(user)
-            db.session.commit()
-            session['known'] = False
+            # user = User(username=form.name.data)
+            # db.session.add(user)
+            # db.session.commit()
+            # session['known'] = False
             if current_app.config['MUSIC_FLOW_ADMIN']:
                 send_email(current_app.config['MUSIC_FLOW_ADMIN'], ' New User', 'mail/new_user', user=user)
             else:

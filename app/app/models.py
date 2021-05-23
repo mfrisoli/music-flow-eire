@@ -25,6 +25,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    reset_pass_token = db.Column(db.String, default='')
+
 
     @property
     def password(self):
@@ -38,7 +40,7 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
-
+    
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -60,6 +62,33 @@ class User(UserMixin, db.Model):
             return False
         self.confirmed = True
         db.session.add(self)
+        return True
+
+
+    def generate_reset_token(self, expiration=300): # 5 min
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        token = s.dumps({'reset': self.id}).decode('utf-8')
+        self.reset_pass_token = token
+        db.session.add(self)
+        db.session.commit()
+        return token
+
+
+    @staticmethod
+    def reset_password(token, new_password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except:
+            return False
+        user = User.query.get(data.get('reset'))
+        if user is None:
+            return False
+        if user.reset_pass_token != token:
+            return False
+        user.password = new_password
+        user.reset_pass_token = ''
+        db.session.add(user)
         return True
 
 

@@ -62,10 +62,14 @@ def create_app(config_name='default'):
         user_role = Role(name='User')
 
         user_john = User(username='John', role=admin_role)
-        user_susan = User(username='Susan', role=user_role)
-        user_david = User(username='David', role=user_role)
 
-        db.session.add_all([admin_role, mod_role, user_role, user_john, user_susan, user_david])
+        user_marco = User(email = 'marcof787@gmail.com',
+                          username = 'marco',
+                          confirmed = True,
+                          password = '123',
+                          role = admin_role)
+
+        db.session.add_all([admin_role, mod_role, user_role, user_marco])
         db.session.commit()
         
     return app
