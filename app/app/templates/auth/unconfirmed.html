@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Music-Flow
+{% endblock %}
+
+
+{% block page_content %}
+
+<h1>You have not confirmed your email address</h1>
+
+<p>if you need another confirmation email please click below</p>
+
+<p>
+    <a href="{{ url_for('auth.resend_confirmation') }}">
+        click here
+    </a>
+</p>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, session, flash
+from flask import render_template, redirect, url_for, session, flash, current_app
 from flask_mail import Message
 from datetime import datetime
 from app.forms import NameForm
@@ -22,8 +22,8 @@ def index():
             db.session.add(user)
             db.session.commit()
             session['known'] = False
-            if app.config['MUSIC_FLOW_ADMIN']:
-                send_email(app.config['MUSIC_FLOW_ADMIN'], ' New User', 'mail/new_user', user=user)
+            if current_app.config['MUSIC_FLOW_ADMIN']:
+                send_email(current_app.config['MUSIC_FLOW_ADMIN'], ' New User', 'mail/new_user', user=user)
             else:
                 session['known'] = True
             session['name'] = form.name.data

@@ -1,0 +1,16 @@
+Hello {{ user.username }}!
+
+Welcome to Music-Flow Eire,
+
+You are just one step away of enyoing great music!
+
+Please confirm your account by clicking on the link below:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+Best Regards,
+
+The Team
+
+Note: Replies to this email account are not monitored
+
