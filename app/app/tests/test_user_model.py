@@ -1,5 +1,7 @@
 import unittest
+from app import create_app, db
 from app.models import User
+
 
 
 class UserModelTestCase(unittest.TestCase):
@@ -24,4 +26,12 @@ class UserModelTestCase(unittest.TestCase):
         u = User(password='foo')
         u2 = User(password='foo')
         self.assertTrue(u.password_hash != u2.password_hash)
+
+
+    def test_confirmation_token(self):
+        u = User(password='foo')
+        db.session.add(u)
+        db.session.commit()
+        token = u.generate_confirmation_token()
+        self.assertTrue(u.confirm(token))
 

@@ -10,6 +10,7 @@ app = create_app(getenv('FLASK_CONFIG') or 'default')
 def hello():
     print("hello")
 
+
 @app.cli.command()
 def test():
     """Run unittests"""
