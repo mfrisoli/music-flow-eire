@@ -95,3 +95,17 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class Song(UserMixin, db.Model):
+    __tablename__ = 'songs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    song_name = db.Column(db.String(64), index=True)
+    artist = db.Column(db.String(64), unique=True, index=True)
+    album = db.Column(db.String(128))
+    year = db.Column(db.String(5))
+    genre = db.Column(db.String(64))
+    filename = db.Column(db.Text())
+
+
+    def __repr__(self):
+        return '<User %r>' % self.username

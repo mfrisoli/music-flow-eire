@@ -20,6 +20,8 @@ class Config:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    MUSIC_DIRECTORY = "/home/marcof/music"
+
     @staticmethod
     def init_app(app):
         pass
